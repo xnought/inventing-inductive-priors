@@ -1,6 +1,6 @@
 # inventing-inductive-priors
 
-Inductive priors (like convolutions, residual connections, batch normalization, attention/transformer) are the drivers behind deep learning. 
+Inductive priors (like convolutions, residual connections, batch normalization, attention/transformer, + more) are the drivers behind deep learning. 
 
 We don't see massive vanilla neural networks doing anywhere close to the same performance.
 
