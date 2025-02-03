@@ -1,5 +1,7 @@
 # Can we invent inductive priors from scratch?
 
+WORK IN PROGRESS. Let me know if you want to contribute by contacting me.
+
 Inductive priors (like convolutions, residual connections, batch normalization, attention/transformer, + more) are the drivers behind deep learning. 
 
 We don't see massive vanilla neural networks doing anywhere close to the same performance.
