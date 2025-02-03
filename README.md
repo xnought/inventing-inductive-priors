@@ -162,7 +162,7 @@ Is especially bad because it corresponds to b-x-b which is just x.
 
 Main result finding:
 
-**Program search can be used to search for inductive priors for the minimal one line regression case. We find many versions of the y=mx+b structure. Even some programs reuse the same weight as y=mx+m since the particular dataset allowed it (y=2x+2 generated the simple data). In the future you can remove those clever uses with multiple and diverse datasets (multiple linear regression datasets in this case).**
+**Brute force program search can be used to search for inductive priors for the minimal one line regression case with 4 possible binary operations and 2 tunable weights. We find many versions of the y=mx+b structure. Even some programs reuse the same weight as y=mx+m since the particular dataset allowed it (y=2x+2 generated the simple data). In the future you can remove those clever uses with multiple and diverse datasets (multiple linear regression datasets in this case).**
 
 Next steps:
 
