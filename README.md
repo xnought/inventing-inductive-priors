@@ -8,7 +8,8 @@ Instead of waiting for a groundbreaking paper with a new inductive prior, let's 
 
 **Goals**
 
-- [ ] Verify it might work: simple brute force search example
+- [x] See experiment 1. Verify it might work: simple brute force search example
+- [ ] Extends experiment 1 to multiple possible linear like datasets
 - [ ] Verify it could really work: search example for something more complicated
 - [ ] Verify it works well: rediscover existing inductive priors (Convolutions or attention)
 - [ ] Invent: new inductive priors with program search/synthesis
@@ -85,3 +86,82 @@ Now for each of the 1152 possible programs I will train the model for 50 iterati
 If a program errors, it gets thrown in the garbage, if it succeeds and optimizes, save the program / inductive prior and label it with the smallest loss it could achieve.
 
 ### Results
+
+See [experiment1.ipynb](./experiment1.ipynb) for results. 
+
+In summary, I get the following inductive priors where each line represents `(lowest_loss_achieved, (op1, op2))`:
+
+```python
+[(0.0, ('x@w', 'w+op1')),
+ (0.0, ('x@w', 'op1+w')),
+ (0.0, ('x@b', 'b+op1')),
+ (0.0, ('x@b', 'op1+b')),
+ (0.0, ('x*w', 'w+op1')),
+ (0.0, ('x*w', 'op1+w')),
+ (0.0, ('x*b', 'b+op1')),
+ (0.0, ('x*b', 'op1+b')),
+ (0.0, ('w*x', 'w+op1')),
+ (0.0, ('w*x', 'op1+w')),
+ (0.0, ('b*x', 'b+op1')),
+ (0.0, ('b*x', 'op1+b')),
+ (1.2768488488745788e-09, ('x+w', 'x+op1')),
+ (1.2768488488745788e-09, ('x+w', 'op1+x')),
+ (1.2768488488745788e-09, ('x+b', 'x+op1')),
+ (1.2768488488745788e-09, ('x+b', 'op1+x')),
+ (1.2768488488745788e-09, ('w+x', 'x+op1')),
+ (1.2768488488745788e-09, ('w+x', 'op1+x')),
+ (1.2768488488745788e-09, ('b+x', 'x+op1')),
+ ...
+ ...
+ (53.5, ('x+b', 'b-op1')),
+ (53.5, ('w+x', 'w-op1')),
+ (53.5, ('b+x', 'b-op1')),
+ (53.5, ('w*b', 'op1-x')),
+ (53.5, ('b*w', 'op1-x')),
+ (53.5, ('w-x', 'op1-w')),
+ (53.5, ('b-x', 'op1-b'))]
+ ```
+
+ See [experiment1_valid_programs.txt](./experiment1_valid_programs.txt) for all of them.
+
+Interesting enough I get many optimal programs which I did not expect (even though I should have).
+
+I mentioned in the setup that w=2 and b=2 for w*x + b works. So my search didn't care which was the slope or bias and sometimes reused the same parameter for both.
+
+`[(0.0, ('x@w', 'w+op1'))`
+
+Which represents
+
+```python
+def forward(x,w,b):
+	op1 = x@w
+	op2 = w+op1
+	return op2
+```
+reuses the w parameter, because w can repeat for this particular dataset!
+
+Using multiple datasets in the search during training and averaging the best loss would have removed these types of clever parameter reuse programs.
+
+And just because I'm curious:
+
+Looking at the worst program `(53.5, ('b-x', 'op1-b'))`
+
+Which represents
+
+```python
+def forward(x,w,b):
+	op1 = b-x
+	op2 = op1-b
+	return op2
+```
+
+Is especially bad because it corresponds to b-x-b which is just x.
+
+
+Main result finding:
+
+**Program search can be used to search for inductive priors for the minimal one line regression case. We find many versions of the y=mx+b structure. Even some programs reuse the same weight as y=mx+m since the particular dataset allowed it (y=2x+2 generated the simple data). In the future you can remove those clever uses with multiple and diverse datasets (multiple linear regression datasets in this case).**
+
+Next steps:
+
+Move to the general regression case: given a dataset, fit a curve to it. Structure by multiple blocks of the same computation (the inductive prior) that we are trying to search for.
