@@ -11,7 +11,7 @@ Instead of waiting for a groundbreaking paper with a new inductive prior, let's 
 **Goals**
 
 - [x] See experiment 1. Verify it might work: simple brute force search example
-- [ ] Extends experiment 1 to multiple possible linear like datasets
+- [ ] Verify it could possible work even more: rediscover neural networks for curve fitting with search
 - [ ] Verify it could really work: search example for something more complicated
 - [ ] Verify it works well: rediscover existing inductive priors (Convolutions or attention)
 - [ ] Invent: new inductive priors with program search/synthesis
