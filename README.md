@@ -8,7 +8,8 @@ Instead of waiting for a groundbreaking paper with a new inductive prior, let's 
 
 **Goals**
 
-- [ ] Verify it could work: simple brute force search example
+- [ ] Verify it might work: simple brute force search example
+- [ ] Verify it could really work: search example for something more complicated
 - [ ] Verify it works well: rediscover existing inductive priors (Convolutions or attention)
 - [ ] Invent: new inductive priors with program search/synthesis
 
@@ -26,3 +27,4 @@ For example $f(x) = w \cdot x + b$ where w and b are learned weights that we can
 Why would we assume that we should multiply the input by w and add b? It's almost like the wx + b itself is an inductive prior. So this becomes the minimal example to show that search for inductive priors would work!  
 
 ### Setup
+
